@@ -19,7 +19,6 @@ class Container(containers.DeclarativeContainer):
         PGVectorStoreImpl,
         connection_string=CONNECTION_STRING,
         table_name="openai_vectors",
-        vector_size=1536,
         embedding=openai_small_embedding,
     )
 
