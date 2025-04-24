@@ -10,7 +10,28 @@ python = "^3.13"
 psycopg2-binary = "^2.9.10"
 openai = "^1.75.0"
 
+# LangChain
+langchain-core = "^0.3"
+langchain-community = "^0.3"
+langchain-openai = "^0.3"
+langchain-text-splitters = "^0.3"
+langchain-postgres = "0.0.14"
+
+# LangGraph
+langgraph = "^0.3.33"
+
+# FastAPI
+fastapi = "^0.115.12"
+uvicorn = "^0.34.2"
+dependency-injector = "^4.46.0"
+
+# Utils
+python-dotenv = "^1.0.1"
+black = "^25.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 130

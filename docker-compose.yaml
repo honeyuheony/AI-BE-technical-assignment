@@ -44,3 +44,22 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
       - ./postgresql/pgadmin/:/var/lib/pgadmin
+
+  # fastapi
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: searchright-fastapi
+    container_name: searchright-fastapi
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=searchright-psql
+      - DB_PORT=5432
+      - DB_USER=searchright
+      - DB_PASSWORD=searchright
+      - DB_NAME=searchright
+    depends_on:
+      - postgres
+      - nginx
