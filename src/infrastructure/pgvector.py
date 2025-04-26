@@ -1,23 +1,29 @@
+import os
+
+from dotenv import load_dotenv
+from langchain_openai import OpenAIEmbeddings
 from langchain_postgres import PGEngine, PGVectorStore
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
+load_dotenv()
+
+CONNECTION_STRING = (
+    f"postgresql+asyncpg://{os.getenv('PGVECTOR_USER')}:{os.getenv('PGVECTOR_PASSWORD')}@{os.getenv('PGVECTOR_HOST')}"
+    f":{os.getenv('PGVECTOR_PORT')}/{os.getenv('PGVECTOR_NAME')}"
+)
+
+async def get_vectorstore(table_name: str):
+    openai_small_embedding = OpenAIEmbeddings(
+        model="text-embedding-3-small"
+    )
+
+    engine = PGEngine.from_connection_string(url=CONNECTION_STRING)
+
+    vectorstore = await PGVectorStore.create(
+        engine=engine,
+        table_name=table_name,
+        embedding_service=openai_small_embedding
+    )
+
+    return vectorstore
 
 
-class PGVectorStoreImpl:
-    def __init__(self, connection_string: str, table_name: str, embedding):
-        # SQLAlchemy 엔진(커넥션 풀) 생성
-        self.engine = create_engine(connection_string, pool_size=5, max_overflow=10)
-        self.Session = sessionmaker(bind=self.engine)
-        # PGEngine 및 테이블 초기화
-        pg_engine = PGEngine.from_connection_string(url=connection_string)
-        # 최신 방식의 PGVectorStore 생성
-        self.store = PGVectorStore.create_sync(
-            engine=pg_engine,
-            table_name=table_name,
-            embedding_service=embedding,
-        )
-
-    def similarity_search(self, query: str):
-        # 필요시 세션 사용 가능: with self.Session() as session:
-        with self.Session() as session:
-            return self.store.similarity_search(query)
