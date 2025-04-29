@@ -10,6 +10,7 @@ CONNECTION_STRING = (
     f"postgresql+asyncpg://{os.getenv('PGVECTOR_USER')}:{os.getenv('PGVECTOR_PASSWORD')}@{os.getenv('PGVECTOR_HOST')}"
     f":{os.getenv('PGVECTOR_PORT')}/{os.getenv('PGVECTOR_NAME')}"
 )
+print(CONNECTION_STRING)
 
 def get_vectorstore(table_name: str):
     openai_small_embedding = OpenAIEmbeddings(

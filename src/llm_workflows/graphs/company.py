@@ -1,3 +1,5 @@
+import json
+
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import Send
@@ -45,3 +47,12 @@ def create_company_tag_graph() -> CompiledStateGraph:
     workflow.add_edge("process_position", END)
 
     return workflow.compile()
+
+
+if __name__ == "__main__":
+    workflow = create_company_tag_graph()
+    # use /example_datas/talent_ex1.json
+    with open("example_datas/talent_ex1.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+        state = CompanyTagState(positions=data["positions"], documents=[], output_tag=[])
+        workflow.invoke(state)

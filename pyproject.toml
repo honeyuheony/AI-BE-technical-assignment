@@ -19,6 +19,7 @@ langchain-postgres = "^0.0.14"
 
 # Postgres
 psycopg = {extras = ["binary", "pool"], version = "^3.2.6"}
+greenlet = "^3.2.1"
 
 # LangGraph
 langgraph = "^0.3.33"

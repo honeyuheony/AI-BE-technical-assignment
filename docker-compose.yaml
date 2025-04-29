@@ -55,11 +55,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DB_HOST=searchright-psql
-      - DB_PORT=5432
-      - DB_USER=searchright
-      - DB_PASSWORD=searchright
-      - DB_NAME=searchright
+      - PGVECTOR_HOST=searchright-psql
+      - PGVECTOR_PORT=5432
+      - PGVECTOR_USER=searchright
+      - PGVECTOR_PASSWORD=searchright
+      - PGVECTOR_NAME=searchright
     depends_on:
       - postgres
       - nginx
