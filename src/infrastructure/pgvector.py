@@ -11,14 +11,14 @@ CONNECTION_STRING = (
     f":{os.getenv('PGVECTOR_PORT')}/{os.getenv('PGVECTOR_NAME')}"
 )
 
-async def get_vectorstore(table_name: str):
+def get_vectorstore(table_name: str):
     openai_small_embedding = OpenAIEmbeddings(
         model="text-embedding-3-small"
     )
 
     engine = PGEngine.from_connection_string(url=CONNECTION_STRING)
 
-    vectorstore = await PGVectorStore.create(
+    vectorstore = PGVectorStore.create_sync(
         engine=engine,
         table_name=table_name,
         embedding_service=openai_small_embedding
